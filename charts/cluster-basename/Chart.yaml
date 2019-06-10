@@ -1,0 +1,4 @@
+apiVersion: v1
+description: A Helm chart for testing basenames in the cluster
+name: cluster-basename
+version: 0.0.1

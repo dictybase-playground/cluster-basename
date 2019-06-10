@@ -1,0 +1,49 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ template "cluster-basename.fullname" . }}
+  labels:
+    app: {{ template "cluster-basename.name" . }}
+    chart: {{ template "cluster-basename.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ template "cluster-basename.fullname" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "cluster-basename.fullname" . }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: {{ .Values.service.name }}
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          resources:
+  {{- if .Values.resources }}
+{{ toYaml .Values.resources | indent 12 }}
+  {{- end }}
+  {{- if .Values.nodeSelector }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+  {{- end }}
+    {{- end }}
+  {{- if .Values.affinity }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+  {{- end }}
+    {{- end }}
+  {{- if .Values.tolerations }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+  {{- end }}
