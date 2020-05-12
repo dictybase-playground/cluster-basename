@@ -1,21 +1,21 @@
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-  name: {{ template "cluster-basename.fullname" . }}
+  name: {{ template "cbase.fullname" . }}
   labels:
-    app: {{ template "cluster-basename.name" . }}
-    chart: {{ template "cluster-basename.chart" . }}
+    app: {{ template "cbase.name" . }}
+    chart: {{ template "cbase.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ template "cluster-basename.fullname" . }}
+      app: {{ template "cbase.fullname" . }}
   template:
     metadata:
       labels:
-        app: {{ template "cluster-basename.fullname" . }}
+        app: {{ template "cbase.fullname" . }}
     spec:
       containers:
         - name: {{ .Chart.Name }}

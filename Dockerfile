@@ -10,15 +10,13 @@ ENV REACT_APP_BASENAME ${basename:-seinfeld}
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
-COPY package-lock.json ./
+COPY package*.json ./
 
-ADD package.json package-dev.json
+EXPOSE 3000
 
-RUN jq '. + {"homepage": "/seinfeld"}' package-dev.json > package.json \
-  && rm package-dev.json
+RUN npm ci
 
 ADD src src
 ADD public public
 
-RUN npm install
-RUN npm start
+ENTRYPOINT npm start

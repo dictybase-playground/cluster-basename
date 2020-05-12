@@ -3,8 +3,8 @@ kind: Service
 metadata:
   name: {{ .Values.service.name }}
   labels:
-    app: {{ template "cluster-basename.fullname" . }}
-    chart: {{ template "cluster-basename.chart" . }}
+    app: {{ template "cbase.fullname" . }}
+    chart: {{ template "cbase.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
@@ -14,4 +14,4 @@ spec:
       targetPort: {{ .Values.service.name }}
       name: {{ .Values.service.name }}
   selector:
-    app: {{ template "cluster-basename.fullname" . }}
+    app: {{ template "cbase.fullname" . }}
